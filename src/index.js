@@ -1,5 +1,20 @@
 
 import "./style.css";
+import { addProject } from "./addProject";
+import { loadContent } from "./uiComponents";
 
 
-console.log("Hello..I am just starting this project right now.");
+
+
+
+loadContent();
+
+const addProjectButton = document.querySelector(".projects-header button");
+
+document.addEventListener('click', (e) => {
+
+    if (addProjectButton.contains(e.target)) {
+        e.stopPropagation();
+        addProject();
+    }
+})
