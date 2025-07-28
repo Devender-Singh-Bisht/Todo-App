@@ -1,4 +1,5 @@
 
+import { displayTasks } from "./displayTask";
 import { addProjectLocalStorage } from "./localstorage";
 
 
@@ -14,6 +15,7 @@ function addProject() {
         const handleSubmit = (e) => {
             e.preventDefault();
             getProjectFormData();
+            displayTasks();
             projectForm.reset();
             projectFormDiv.classList.add("hidden");
             projectForm.removeEventListener('submit', handleSubmit);
@@ -42,8 +44,9 @@ function addProject() {
         alert(outputAlert);
     }
 
-    
-    toggleProjectForm();
+    if (projectFormDiv.classList.contains("hidden")) {
+        toggleProjectForm();
+    }
 }
 
 

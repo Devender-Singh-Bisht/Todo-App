@@ -1,18 +1,16 @@
 
+import penguinImage from './assets/penguin.png';
+import { getTasksLocalStorage } from "./localstorage";
 
-const task = `<div class="checkbox">
-                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm13.707-1.293a1 1 0 0 0-1.414-1.414L11 12.586l-1.793-1.793a1 1 0 0 0-1.414 1.414l2.5 2.5a1 1 0 0 0 1.414 0l4-4Z"
-                                clip-rule="evenodd" />
-                        </svg>
+
+
+const taskHtml = (title, desc)=> {
+    return `<div class="checkbox ">
+                        <div class="checkmark"></div>
                     </div>
                     <div class="task-content">
-                        <div class="task-title">Dishes</div>
-                        <div class="task-desc">I have to complete my Morining Dishes. I have to complete them within an
-                            hour before mom comes back form the market</div>
+                        <div class="task-title">${title}</div>
+                        <div class="task-desc">${desc}</div>
                     </div>
                     <div class="task-btns">
                         <button type="button" class="edit-btn">
@@ -32,20 +30,43 @@ const task = `<div class="checkbox">
                                     stroke-linejoin="round" />
                             </svg>
                         </button>
-                    </div>`
-
-
-function addTask(n) {
-    const tasks = document.querySelector(".tasks");
-
-    for (let i = 1; i <= n; i++) {
-        let taskElement = document.createElement("div");
-        taskElement.classList.add("task");
-
-        taskElement.innerHTML = task;
-
-        tasks.append(taskElement);
-    }
+                    </div>`;
 }
 
-export {addTask};
+
+
+function displayTasks() {
+    const tasks = document.querySelector(".tasks");
+    const mainHeading = document.querySelector('.main-heading>span');
+
+    const projectName = mainHeading.innerText;
+    const tasksArray = getTasksLocalStorage(projectName);
+
+    tasks.innerHTML = "";
+
+    if (tasksArray.length < 1) {
+        let noTasksDiv = document.createElement("div");
+        noTasksDiv.classList.add("no-task");
+
+        let penguinImg = document.createElement("img");
+        penguinImg.src = penguinImage;
+        penguinImg.alt = "Penguin";
+
+        let messageDiv = document.createElement("div");
+        messageDiv.textContent = "Sorry! You haven't created any task inside this folder yet.";
+
+        noTasksDiv.append(penguinImg, messageDiv);
+        tasks.appendChild(noTasksDiv);
+        return;
+    }
+
+    tasksArray.forEach(task => {
+        let taskDiv = document.createElement("div");
+        taskDiv.classList.add("task");
+        taskDiv.innerHTML = taskHtml(task.title, task.desc);
+        tasks.appendChild(taskDiv);
+    });
+
+}
+
+export { displayTasks };

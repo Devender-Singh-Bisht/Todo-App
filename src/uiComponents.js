@@ -1,15 +1,21 @@
 
+import { displayTasks } from "./displayTask";
 
-function projectButton(projectName) {
+
+
+
+function displayProjectButtons(projectName) {
     const asideProjects = document.querySelector("div.projects");
 
     const button = document.createElement('button');
     button.setAttribute('class', 'project aside-btn');
     button.setAttribute('type', 'button');
+    button.setAttribute('data-project-btn', projectName);
     button.textContent = projectName;
 
     asideProjects.appendChild(button);
 }
+
 
 function projectHeading(projectName) {
     const heading = document.querySelector('.main-heading>span');
@@ -23,11 +29,14 @@ function loadContent() {
     }
 
     for (let i = 0; i < localStorage.length; i++) {
-        projectButton(localStorage.key(i));
+        displayProjectButtons(localStorage.key(i));
     }
 
-    projectHeading("Home");
+    projectHeading("HOME");
+
+    // const homeArray = JSON.parse(localStorage.getItem("HOME"));
+    displayTasks();
 }
 
 
-export { projectButton, loadContent, projectHeading };
+export { displayProjectButtons, loadContent, projectHeading };
