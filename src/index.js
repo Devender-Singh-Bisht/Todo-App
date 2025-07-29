@@ -4,6 +4,7 @@ import { addProject } from "./addProject";
 import { loadContent, projectHeading } from "./uiComponents";
 import { addTask } from "./addTask";
 import { displayTasks } from "./displayTask";
+import { deleteProject } from "./localstorage";
 
 
 
@@ -13,8 +14,7 @@ loadContent();
 function app() {
     const addProjectButton = document.querySelector(`[data-btn = "add-project"]`);
     const addTaskButton = document.querySelector(`[data-btn = "add-task"]`);
-    let projectButtons = document.querySelectorAll('[data-project-btn]');
-    console.log(projectButtons);
+    const deleteProjectButton = document.querySelector(`[data-btn = "delete-project"]`)
 
     const handleClick = (e) => {
 
@@ -28,14 +28,15 @@ function app() {
             addTask();
         }
 
-        if (e.target.classList.contains("aside-btn")) {
+        if (e.target.hasAttribute("data-project-btn")) {
             e.stopPropagation();
+            projectHeading(e.target.dataset.projectBtn);
+            displayTasks();
+        }
 
-            let target = e.target;
-            if (target.hasAttribute("data-project-btn")) {
-                projectHeading(target.dataset.projectBtn);
-                displayTasks();
-            }
+        if (deleteProjectButton.contains(e.target)) {
+            e.stopPropagation();
+            deleteProject();
         }
 
     }

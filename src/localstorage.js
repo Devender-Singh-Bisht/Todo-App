@@ -1,6 +1,6 @@
 
 import { displayTasks } from "./displayTask";
-import { displayProjectButtons, projectHeading} from "./uiComponents";
+import { displayProjectButtons, loadContent, projectHeading} from "./uiComponents";
 
 
 
@@ -40,6 +40,23 @@ function getTasksLocalStorage(projectName) {
     return tasks;
 }
 
+function deleteProject() {
+    const projectName = document.querySelector('.main-heading>span').innerText;
+
+    if (projectName === "HOME") {
+        alert("This is the Default project and cannot be deleted.")
+        return;
+    }
+
+    let confirmation = confirm(`Are you sure you want to delete '${projectName}' as it will delete all your tasks inside it?`)
+    if (confirmation) {
+        localStorage.removeItem(projectName);
+        loadContent();
+        return;
+    }
+    return; 
+}
 
 
-export {addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage};
+
+export {addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage, deleteProject};

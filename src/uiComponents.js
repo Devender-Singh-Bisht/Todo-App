@@ -18,8 +18,21 @@ function displayProjectButtons(projectName) {
 
 
 function projectHeading(projectName) {
+    const projectButtons = document.querySelectorAll('[data-project-btn]');
     const heading = document.querySelector('.main-heading>span');
     heading.textContent = projectName;
+
+    function buttonClickedStyling() {
+        projectButtons.forEach(button => {
+            if (button.classList.contains('aside-btn-clicked')) {
+                button.classList.remove('aside-btn-clicked');
+            }
+        });
+
+        document.querySelector(`[data-project-btn = ${projectName}]`).classList.add("aside-btn-clicked");
+    }
+
+    buttonClickedStyling();
 }
 
 
@@ -28,13 +41,19 @@ function loadContent() {
         localStorage.setItem('HOME', '[]');
     }
 
+    const asideProjects = document.querySelector("div.projects");
+    asideProjects.innerHTML = "";
     for (let i = 0; i < localStorage.length; i++) {
-        displayProjectButtons(localStorage.key(i));
+        if (localStorage.key(i) === "HOME") {
+            displayProjectButtons(localStorage.key(i), true)
+        }
+        else {
+            displayProjectButtons(localStorage.key(i));
+        }
     }
 
     projectHeading("HOME");
 
-    // const homeArray = JSON.parse(localStorage.getItem("HOME"));
     displayTasks();
 }
 
