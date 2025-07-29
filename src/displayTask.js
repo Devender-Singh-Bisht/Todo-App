@@ -63,6 +63,19 @@ function displayTasks() {
     tasksArray.forEach(task => {
         let taskDiv = document.createElement("div");
         taskDiv.classList.add("task");
+
+        console.log(task.priority)
+
+        if (task.priority === "low") {
+            taskDiv.style.backgroundColor = "#DBB8FF";
+        }
+        else if (task.priority === "medium") {
+            taskDiv.style.backgroundColor = "#C48AFF";
+        }
+        else {
+            taskDiv.style.backgroundColor = "#AD5CFF";
+        }
+
         taskDiv.innerHTML = taskHtml(task.title, task.desc);
         tasks.appendChild(taskDiv);
     });

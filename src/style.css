@@ -231,9 +231,10 @@ aside {
     height: 16vh;
     padding: 10px;
     margin-top: 20px;
-    background-color: rgba(68, 37, 206, 0.425);
+    /* background-color: rgba(68, 37, 206, 0.425); */
     border: 2px solid black;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 .checkbox {
