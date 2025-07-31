@@ -4,7 +4,7 @@ import { addProject } from "./addProject";
 import { loadContent, projectHeading } from "./uiComponents";
 import { addTask } from "./addTask";
 import { displayTaskOverlay, displayTasks } from "./displayTask";
-import { deleteProject, editTaskCompleteStatus } from "./localstorage";
+import { deleteProject, editTaskCompleteStatus, deleteTaskLocalStorage } from "./localstorage";
 
 
 
@@ -44,14 +44,21 @@ function app() {
                 const task = target.closest('.task');
                 let taskId = task.dataset.taskId;
                 const checkbox = task.querySelector('.checkbox');
+                const deleteBtn = task.querySelector('.task-btns .red-btn');
+                const editBtn = task.querySelector('.task-btns .edit-btn');
 
                 if (checkbox.contains(target)) {
                     editTaskCompleteStatus(taskId);
                 }
+                else if (deleteBtn.contains(target)) {
+                    deleteTaskLocalStorage(taskId);
+                }
+                else if (editBtn.contains(target)) {
+                    alert("Edit btn");
+                }
                 else {
                     displayTaskOverlay(taskId);
                 }
-
             }
         }
 

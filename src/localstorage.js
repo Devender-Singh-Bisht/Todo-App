@@ -82,5 +82,18 @@ function editTaskCompleteStatus(taskId) {
 }
 
 
+function deleteTaskLocalStorage(taskId) {
+    const projectName = document.querySelector('.main-heading>span').innerText;
+    const tasksArray = getTasksLocalStorage(projectName);
 
-export { addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage, deleteProject, editTaskCompleteStatus };
+    let confirmation = confirm("Are you sure you want to delete this task?");
+    if (confirmation) {
+        tasksArray.splice(taskId, 1);
+        localStorage.setItem(projectName, JSON.stringify(tasksArray));
+        displayTasks();
+    }
+}
+
+
+
+export { addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage, deleteProject, editTaskCompleteStatus, deleteTaskLocalStorage};

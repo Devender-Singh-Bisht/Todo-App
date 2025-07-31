@@ -50,7 +50,7 @@ function displayTasks() {
         penguinImg.alt = "Penguin";
 
         let messageDiv = document.createElement("div");
-        messageDiv.textContent = "Sorry! You haven't created any task inside this folder yet.";
+        messageDiv.textContent = "Sorry! You haven't created any task inside this project yet.";
 
         noTasksDiv.append(penguinImg, messageDiv);
         tasks.appendChild(noTasksDiv);
@@ -108,6 +108,14 @@ function displayTaskOverlay(taskId) {
     desc.textContent = currentTask.desc;
     dueDate.textContent = currentTask.dueDate;
     priority.textContent = currentTask.priority;
+
+    if (currentTask.completed) {
+        taskOverlay.style.backgroundColor = 'rgb(108 108 108)';
+    }
+    else {
+        taskOverlay.style.backgroundColor = 'rgb(243, 46, 167)';
+
+    }
 
     taskOverlay.classList.remove('hidden');
     overlay.classList.remove('hidden');
