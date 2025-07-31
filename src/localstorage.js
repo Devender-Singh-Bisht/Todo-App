@@ -1,6 +1,6 @@
 
 import { displayTasks } from "./displayTask";
-import { displayProjectButtons, loadContent, projectHeading} from "./uiComponents";
+import { displayProjectButtons, loadContent, projectHeading } from "./uiComponents";
 
 
 
@@ -54,9 +54,33 @@ function deleteProject() {
         loadContent();
         return;
     }
-    return; 
+    return;
+}
+
+function editTaskCompleteStatus(taskId) {
+    const projectName = document.querySelector('.main-heading>span').innerText;
+    const tasksArray = getTasksLocalStorage(projectName);
+    let completed = tasksArray[taskId].completed;
+    console.log(tasksArray)
+
+    if (completed) {
+        let confirmation = confirm("Are you sure you want to mark this task as incomplete?")
+        if (confirmation) {
+            tasksArray[taskId].completed = false;
+        }
+    }
+    else {
+        let confirmation = confirm("Are you sure you want to mark this task as complete?")
+        if (confirmation) {
+            tasksArray[taskId].completed = true;
+        }
+    }
+    
+    localStorage.setItem(projectName, JSON.stringify(tasksArray));
+    displayTasks();
+
 }
 
 
 
-export {addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage, deleteProject};
+export { addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage, deleteProject, editTaskCompleteStatus };

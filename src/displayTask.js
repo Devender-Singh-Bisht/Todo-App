@@ -4,11 +4,8 @@ import { getTasksLocalStorage } from "./localstorage";
 
 
 
-const taskHtml = (title, desc)=> {
-    return `<div class="checkbox ">
-                        <div class="checkmark"></div>
-                    </div>
-                    <div class="task-content">
+const taskHtml = (title, desc) => {
+    return `<div class="task-content">
                         <div class="task-title">${title}</div>
                         <div class="task-desc">${desc}</div>
                     </div>
@@ -60,11 +57,10 @@ function displayTasks() {
         return;
     }
 
-    tasksArray.forEach(task => {
+    tasksArray.forEach((task, index) => {
         let taskDiv = document.createElement("div");
         taskDiv.classList.add("task");
-
-        console.log(task.priority)
+        taskDiv.setAttribute('data-task-id', index);
 
         if (task.priority === "low") {
             taskDiv.style.backgroundColor = "#DBB8FF";
@@ -78,8 +74,53 @@ function displayTasks() {
 
         taskDiv.innerHTML = taskHtml(task.title, task.desc);
         tasks.appendChild(taskDiv);
+
+        let checkbox = document.createElement('div');
+        checkbox.classList.add('checkbox');
+        let checkmark = document.createElement('div');
+        checkmark.classList.add('checkmark');
+
+        if (task.completed) {
+            checkbox.classList.add('checkbox-clicked');
+            taskDiv.style.backgroundColor = "rgb(208 206 206)";
+        }
+        checkbox.append(checkmark);
+
+        taskDiv.prepend(checkbox);
     });
 
 }
 
-export { displayTasks };
+
+function displayTaskOverlay(taskId) {
+    const taskOverlay = document.querySelector('.task-details');
+    const overlay = document.querySelector('.overlay');
+    const projectName = document.querySelector('.main-heading>span').textContent;
+    const tasksArray = getTasksLocalStorage(projectName);
+    const currentTask = tasksArray[taskId];
+
+    const title = document.querySelector('.tdetails-title');
+    const desc = document.querySelector('.tdetails-desc');
+    const dueDate = document.querySelector('.tdetails-ddate span+span');
+    const priority = document.querySelector('.tdetails-priority span+span');
+
+    title.textContent = currentTask.title;
+    desc.textContent = currentTask.desc;
+    dueDate.textContent = currentTask.dueDate;
+    priority.textContent = currentTask.priority;
+
+    taskOverlay.classList.remove('hidden');
+    overlay.classList.remove('hidden');
+
+    const handleClickOutside = () => {
+        overlay.removeEventListener('click', handleClickOutside);
+        taskOverlay.classList.add('hidden');
+        overlay.classList.add('hidden');
+    }
+    overlay.addEventListener('click', handleClickOutside)
+}
+
+
+
+
+export { displayTasks, displayTaskOverlay };
