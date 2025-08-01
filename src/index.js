@@ -54,7 +54,7 @@ function app() {
                     deleteTaskLocalStorage(taskId);
                 }
                 else if (editBtn.contains(target)) {
-                    alert("Edit btn");
+                    addTask(true, taskId);
                 }
                 else {
                     displayTaskOverlay(taskId);

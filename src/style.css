@@ -386,6 +386,11 @@ form {
     height: 40px;
 }
 
+.task-form input, .task-form textarea {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
 .task-form select:focus {
     background-color: rgba(0, 0, 0, 0.719);
     color: white;

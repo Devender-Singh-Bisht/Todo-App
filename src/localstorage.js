@@ -34,6 +34,16 @@ function addTaskLocalStorage(projectName, title, desc, dueDate, priority) {
     localStorage.setItem(projectName, projectArray);
 }
 
+function editTaskLocalStorage(projectName, taskId, title, desc, dueDate, priority) {
+    let tasksArray = getTasksLocalStorage(projectName);
+    tasksArray[taskId].title = title;
+    tasksArray[taskId].desc = desc;
+    tasksArray[taskId].dueDate = dueDate;
+    tasksArray[taskId].priority = priority;
+    
+    localStorage.setItem(projectName, JSON.stringify(tasksArray));
+}
+
 function getTasksLocalStorage(projectName) {
     let tasks = localStorage.getItem(projectName);
     tasks = JSON.parse(tasks);
@@ -78,7 +88,6 @@ function editTaskCompleteStatus(taskId) {
     
     localStorage.setItem(projectName, JSON.stringify(tasksArray));
     displayTasks();
-
 }
 
 
@@ -96,4 +105,4 @@ function deleteTaskLocalStorage(taskId) {
 
 
 
-export { addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage, deleteProject, editTaskCompleteStatus, deleteTaskLocalStorage};
+export { addProjectLocalStorage, addTaskLocalStorage, getTasksLocalStorage, deleteProject, editTaskCompleteStatus, deleteTaskLocalStorage, editTaskLocalStorage};

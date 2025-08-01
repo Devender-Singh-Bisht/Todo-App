@@ -1,17 +1,18 @@
 
 import { displayTasks } from "./displayTask";
-import { addTaskLocalStorage } from "./localstorage";
+import { addTaskLocalStorage, editTaskLocalStorage, getTasksLocalStorage } from "./localstorage";
 
 
 
-function addTask() {
-
+function addTask(edit = false, taskId = -1) {
     const overlay = document.querySelector(".overlay");
     const taskFormContainer = document.querySelector(".task-form");
     const taskForm = document.querySelector(".task-form>form");
     const dueDateInput = document.querySelector(".task-form #date");
     const projectName = document.querySelector('.main-heading>span').innerText;
-
+    // changes 
+    const taskFormContainerHeader = document.querySelector(".task-form>h2");
+    const taskFormSubmitButton = document.querySelector(".task-form button");
 
     function setDueDate() {
         const today = new Date();
@@ -28,14 +29,47 @@ function addTask() {
         let dueDate = formData.get("due-date");
         let priority = formData.get("priority");
 
-        addTaskLocalStorage(projectName, title, desc, dueDate, priority);
+        if (edit) {
+            editTaskLocalStorage(projectName, taskId, title, desc, dueDate, priority);
+        }
+        else {
+            addTaskLocalStorage(projectName, title, desc, dueDate, priority);
+        }
         displayTasks();
     }
 
+    // Only if edit is true and want to edit the task 
+    function addPreviousValuesForm() {
+        const title = document.querySelector(".task-form #title");
+        const desc = document.querySelector(".task-form #desc");
+        const date = document.querySelector(".task-form #date");
+        const priority = document.querySelector(".task-form #priority");
+
+        let tasksArray = getTasksLocalStorage(projectName);
+        title.value = tasksArray[taskId].title;
+        desc.value = tasksArray[taskId].desc;
+        date.value = tasksArray[taskId].dueDate;
+        priority.value = tasksArray[taskId].priority;
+    }
+
     function toggleTaskForm() {
+        // changes
+        if (edit) {
+            taskFormContainerHeader.textContent = "Edit Task";
+            taskFormSubmitButton.textContent = "Edit Task";
+        }
+        else {
+            taskFormContainerHeader.textContent = "Create Task";
+            taskFormSubmitButton.textContent = "Create Task";
+        }
+
         taskFormContainer.classList.toggle("hidden");
         overlay.classList.toggle("hidden");
         setDueDate();
+
+        if (edit) {
+            addPreviousValuesForm()
+        }
 
         function handleSubmit(e) {
             e.preventDefault();
@@ -61,9 +95,7 @@ function addTask() {
         overlay.addEventListener('click', handleClickOutside);
     }
 
-
     toggleTaskForm();
-
 }
 
 
